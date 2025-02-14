@@ -1,0 +1,14 @@
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+        gap: 12px;
+        background-color: #e4e6eb;
+        border-radius: 12px;
+        max-height: 100vh;
+        overflow-y: scroll;
+    }
+}

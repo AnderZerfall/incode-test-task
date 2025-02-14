@@ -1,0 +1,13 @@
+.main-page {
+
+    &__repo-info {
+        display: flex;
+    }
+
+    &__work-area {
+        display: grid;
+        align-items: start;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 36px;
+    }
+}
