@@ -7,7 +7,7 @@ import {
   useMemo,
   useState
 } from 'react';
-import { getIssues, formatLink } from '../../api/githubApi';
+import { getIssues, formatLink, getFictionData } from '../../api/githubApi';
 import { IssueInfo } from '../../types/IssueInfo';
 import { useDispatch } from 'react-redux';
 import { IssuesSlice } from '../../features/github/issuesSlices';

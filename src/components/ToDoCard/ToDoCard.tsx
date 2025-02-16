@@ -37,6 +37,7 @@ const ToDoCardComponent: React.FC<Props> = React.memo(({ issue, type }) => {
         <div ref={drag}>
           <Card
             data-testid='issue-card'
+            data-test-draggable={`card-draggable-${issue.status}-${issue.id}`}
             data-test-type={`issue-${issue.status}`}
             title={issue.title}
             variant='borderless'

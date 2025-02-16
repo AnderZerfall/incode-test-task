@@ -42,7 +42,10 @@ export const DropIndicator: React.FC<Props> = ({
   }));
 
   return (
-    <div ref={drop}>
+    <div
+      ref={drop}
+      data-testid={issue ? `drop-indicator-${issue.status}-${issue.id}` : `drop-indicator-end-${column}`}
+    >
       <div className={classNames('drop-indicator', { active: isOver })} />
       {children}
     </div>
