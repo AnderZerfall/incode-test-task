@@ -1,14 +1,27 @@
 .todo-list {
+    min-width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    &__headline {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
     &__container {
-        gap: 12px;
-        background-color: #e4e6eb;
+        // gap: 12px;
+        background-color: #111013;
+        border: 1px solid #312e38;
+       
         border-radius: 12px;
         max-height: 100vh;
         overflow-y: scroll;
+    }
+
+    .highlighted {
+        border: 1px solid #585069;
+        background-color: #17161a;
     }
 }

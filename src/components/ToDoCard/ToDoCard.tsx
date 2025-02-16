@@ -1,59 +1,58 @@
 import { Card } from 'antd';
 import { IssueInfo } from '../../types/IssueInfo';
-import { useDrag, useDrop } from 'react-dnd';
-import { IssuesSlice } from '../../features/github/issuesSlices';
-import { useDispatch } from 'react-redux';
+import { useDrag } from 'react-dnd';
 import { IssueStatus } from '../../types/IssueStatus';
-import { useRef } from 'react';
+import React from 'react';
+import { DropIndicator } from '../DropIndicator/DropIndicatior';
+import { motion } from 'framer-motion';
+import classNames from 'classnames';
+import './ToDoCard.scss';
 
-type Props = {
-    issue: IssueInfo
-    type: IssueStatus
+interface Props {
+  issue: IssueInfo;
+  type: IssueStatus;
+  index: number;
 }
 
+export const ToDoCard: React.FC<Props> = ({
+  issue,
+  type,
+  index
+}) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'ISSUES',
+    item: { card: issue, index },
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }));
 
-export const ToDoCard: React.FC<Props> = ({ issue, type }) => {
-    const ref = useRef(null)
-    const dispatch = useDispatch();
+  console.log(issue);
 
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: 'ISSUES',
-        item: issue,
-        collect: monitor => ({
-            isDragging: monitor.isDragging(),
-        }),
-    }));
-
-    // const [, drop] = useDrop(() => ({
-    //     accept: 'ISSUES',
-    //     drop: (card: IssueInfo, monitor) => {
-    //         if (!ref.current) {
-    //             return
-    //         }
-    //         console.log(`1CARD ${card.order}   1HOVER ${issue.order}`)
-
-    //         if (card.order === issue.order
-    //             && card.status === issue.status) {
-    //             return;
-    //         }
-
-    //         console.log(card.order, issue.order);
-    //         dispatch(IssuesSlice.actions.moveCard({ card, newColumn: type, hoverCard: issue }))
-    //     }
-        
-    //     // drop: (card: IssueInfo) => {
-    //     //     console.log('DROP!');
-    //     //     dispatch(IssuesSlice.actions.moveCard({ card, newColumn: headline,  }))
-    //     // }
-    // }));
-
-    // drag(drop(ref))
-
-    return (
-        <Card ref={ref} title={issue.title} variant="borderless" style={{ width: '100%', maxWidth: 400 }}>
-            <p>#{issue.number} opened {issue.timeAgo} ago</p>
-            <p>{issue.user.login} | Comments: {issue.comments}</p>
-            <p></p>
-        </Card>
-    )
-}
+  return (
+    <DropIndicator
+      index={index}
+      column={type}
+      issue={issue}
+    >
+      <motion.div
+        layout
+        layoutId={`${issue.id}`}
+      >
+        <div ref={drag}>
+          <Card
+            title={issue.title}
+            variant="borderless"
+            className={classNames('card', { highlighted: isDragging })}
+          >
+            <p>
+              #{issue.number} opened {issue.timeAgo} ago
+            </p>
+            <p>
+              {' '}
+              {issue.user.login} | Comments: {issue.comments}
+            </p>
+          </Card>
+        </div>
+      </motion.div>
+    </DropIndicator>
+  );
+};

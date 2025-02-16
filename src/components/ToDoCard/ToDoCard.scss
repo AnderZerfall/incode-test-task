@@ -1,0 +1,8 @@
+.card {
+    transition: all 300ms ease;
+    
+    &:hover {
+        background-color: #17161a;
+        
+    }
+}

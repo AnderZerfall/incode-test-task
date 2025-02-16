@@ -1,5 +1,5 @@
 export enum IssueStatus {
-    TO_DO = 'To do',
-    IN_PROGRESS = 'In Progress',
+    TO_DO = 'ToDo',
+    IN_PROGRESS = 'InProgress',
     DONE = 'Done'
 }

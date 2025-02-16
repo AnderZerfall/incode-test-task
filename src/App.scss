@@ -7,9 +7,22 @@ body {
     min-height: 100%;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &__title {
+        font-size: 24px;
+        color:white;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 24px;
+    padding: 0 24px;
 }
+
+// https://github.com/react-dnd/react-dnd
