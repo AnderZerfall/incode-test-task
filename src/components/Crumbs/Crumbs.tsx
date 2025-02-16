@@ -2,6 +2,7 @@ import { Breadcrumb } from 'antd';
 import { getOwnerLinkName, getRepoName } from '../../api/githubApi';
 import { useMemo } from 'react';
 
+
 type Props = {
   repoLink: string;
 };
@@ -13,6 +14,7 @@ export const Crumbs: React.FC<Props> = ({ repoLink }) => {
   return (
     <Breadcrumb
       style={{ margin: '16px 0', }}
+      separator=">"
     >
       <Breadcrumb.Item>
         <a

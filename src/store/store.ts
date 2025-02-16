@@ -22,7 +22,6 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  console.log(`ISSUES TO STORE: ${store.getState().issues.columns}`);
   saveRepo(
     store.getState().issues.columns,
     store.getState().issues.repoLink,

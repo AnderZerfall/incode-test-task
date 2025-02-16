@@ -8,46 +8,35 @@ import classNames from 'classnames';
 import './DropIndicator.scss';
 
 interface Props {
-  index: number;
   column: IssueStatus;
   issue?: IssueInfo;
   children?: ReactNode;
 }
 
 export const DropIndicator: React.FC<Props> = ({
-  index,
   column,
   issue,
   children,
 }) => {
   const dispatch = useDispatch();
 
-  console.log(index);
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ISSUES',
-    drop: (item: { card: IssueInfo; index: number }) => {
+    drop: (item: { card: IssueInfo; }) => {
       if (issue) {
         if (item.card.id === issue.id) {
           return;
         }
-
-        console.log(`TARGET: ${item.index} HOVER: ${index} PLACE: ${index}`);
       }
 
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
       dispatch(
-        IssuesSlice.actions.moveCard({
+        IssuesSlice.actions.moveIssues({
           card: item.card,
-          sourceIndex: dragIndex,
-          targetIndex: hoverIndex,
+          targetCard: issue,
           targetColumnType: column,
           sourceColumnType: item.card.status,
         }),
       );
-
-      // item.index = hoverIndex;
     },
     collect: (monitor) => ({ isOver: monitor.isOver() }),
   }));

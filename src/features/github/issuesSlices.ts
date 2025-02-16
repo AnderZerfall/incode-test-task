@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import {
-  createSelector, createSlice, PayloadAction
+  createSelector,
+  createSlice,
+  PayloadAction
 } from '@reduxjs/toolkit';
 import { IssueInfo } from '../../types/IssueInfo';
 import { IssueStatus } from '../../types/IssueStatus';
 import { Columns } from '../../types/Columns';
-interface RootState {
+export interface RootState {
   issues: InitialState;
 }
 export interface InitialState {
@@ -28,55 +30,49 @@ export const IssuesSlice = createSlice({
   reducers: {
     setIssues: (
       state,
-      { payload }: PayloadAction<{ issues: IssueInfo[]; link: string }>,
-    ) => {
-      console.log(payload);
+      { payload }:
+        PayloadAction<{ issues: IssueInfo[]; link: string }>) => {
 
-      state.columns.ToDo = payload.issues.filter(
-        (issue) => issue.status === IssueStatus.TO_DO,
-      );
-      state.columns.InProgress = payload.issues.filter(
-        (issue) => issue.status === IssueStatus.IN_PROGRESS,
-      );
-      state.columns.Done = payload.issues.filter(
-        (issue) => issue.status === IssueStatus.DONE,
-      );
+      Object.values(IssueStatus).map(status =>
+        state.columns[status] = payload.issues.filter((issue) =>
+          issue.status === status));
 
       state.repoLink = payload.link;
     },
     loadIssues: (
       state,
-      { payload }: PayloadAction<{ issues: Columns; link: string }>,
-    ) => {
-      state.columns.ToDo = payload.issues.ToDo;
-      state.columns.InProgress = payload.issues.InProgress;
-      state.columns.Done = payload.issues.Done;
+      { payload }:
+        PayloadAction<{ issues: Columns; link: string }>) => {
+      
+      Object.values(IssueStatus).map(status =>
+        state.columns[status] = payload.issues[status]);
+      
       state.repoLink = payload.link;
     },
-    moveCard: (
+    moveIssues: (
       state,
-      { payload }
-        : PayloadAction<{
+      { payload, }: PayloadAction<{
         card: IssueInfo;
-        sourceIndex: number;
-        targetIndex: number;
+        targetCard?: IssueInfo;
         targetColumnType: IssueStatus;
         sourceColumnType: IssueStatus;
       }>,
     ) => {
       const {
         card,
-        sourceIndex,
-        targetIndex,
+        targetCard,
         targetColumnType,
-        sourceColumnType,
+        sourceColumnType
       } = payload;
 
-      // state.columns[sourceColumnType].splice(sourceIndex, 1);
-      const updatedColumn = state.columns[sourceColumnType].filter(
-        (issue) => issue.id !== card.id,
-      );
-      
+      const updatedColumn = state.columns[sourceColumnType].filter((issue) =>
+        issue.id !== card.id);
+
+      const targetIndex = targetCard
+        ? state.columns[targetColumnType].findIndex((issue) =>
+          issue.id === targetCard.id)
+        : state.columns[targetColumnType].length;
+
       state.columns[sourceColumnType] = updatedColumn;
 
       state.columns[targetColumnType].splice(targetIndex, 0, {

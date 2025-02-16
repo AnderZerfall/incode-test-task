@@ -7,9 +7,6 @@ export const saveRepo = (
   repo: string,
   storageName: string
 ) => {
-  console.log(storageName);
-  console.log(repo);
-
   try {
     if (!columns) {
       throw new Error('Impossible to save empty board');
@@ -24,8 +21,6 @@ export const saveRepo = (
 };
 
 export const saveLatestRepoName = (repo: string) => {
-  console.log(repo);
-
   try {
     if (!repo) {
       throw new Error('Impossible to save empty board');
@@ -60,8 +55,6 @@ export const getLatestRepo = () => {
 
   if (getRepoName) {
     const repo = loadRepo(getRepoName);
-
-    console.log(repo);
 
     return repo;
   }

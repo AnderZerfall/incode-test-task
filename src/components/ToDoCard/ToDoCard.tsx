@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Typography, Tag } from 'antd';
 import { IssueInfo } from '../../types/IssueInfo';
 import { useDrag } from 'react-dnd';
 import { IssueStatus } from '../../types/IssueStatus';
@@ -11,48 +11,59 @@ import './ToDoCard.scss';
 interface Props {
   issue: IssueInfo;
   type: IssueStatus;
-  index: number;
 }
 
-export const ToDoCard: React.FC<Props> = ({
-  issue,
-  type,
-  index
-}) => {
+const ToDoCardComponent: React.FC<Props> = React.memo(({ issue, type }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ISSUES',
-    item: { card: issue, index },
+    item: { card: issue },
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   }));
 
-  console.log(issue);
+  const defineTagColor = (status: IssueStatus) => {
+    switch (status) {
+      case IssueStatus.TO_DO:
+        return 'purple';
+      case IssueStatus.IN_PROGRESS:
+        return 'processing';
+      case IssueStatus.DONE:
+        return 'success';
+    }
+  };
 
   return (
-    <DropIndicator
-      index={index}
-      column={type}
-      issue={issue}
-    >
-      <motion.div
-        layout
-        layoutId={`${issue.id}`}
-      >
+    <DropIndicator column={type} issue={issue}>
+      <motion.div layout layoutId={`${issue.id}`}>
         <div ref={drag}>
           <Card
+            data-testid='issue-card'
+            data-test-type={`issue-${issue.status}`}
             title={issue.title}
-            variant="borderless"
+            variant='borderless'
             className={classNames('card', { highlighted: isDragging })}
           >
-            <p>
-              #{issue.number} opened {issue.timeAgo} ago
-            </p>
-            <p>
-              {' '}
-              {issue.user.login} | Comments: {issue.comments}
-            </p>
+            <Tag
+              className={classNames('card__tag')}
+              bordered={false}
+              color={defineTagColor(issue.status)}>
+              {issue.status}
+            </Tag>
+            <Typography.Paragraph>
+              🛠️{' '}
+              <Typography.Text type='secondary'>
+                Issues #{issue.number} opened {issue.timeAgo} ago
+              </Typography.Text>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
+              👨🏻‍💻 <Typography.Text type='secondary'>{issue.user.login}</Typography.Text> 💬{' '}
+              <Typography.Text type='secondary'>Comments: {issue.comments}</Typography.Text>
+            </Typography.Paragraph>
           </Card>
         </div>
       </motion.div>
     </DropIndicator>
   );
-};
+});
+
+ToDoCardComponent.displayName = 'ToDoCard';
+export const ToDoCard = ToDoCardComponent;

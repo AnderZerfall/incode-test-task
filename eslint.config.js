@@ -8,7 +8,7 @@ import prettier from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'node_modules', 'build', 'public'] },
   {
     extends: [
       js.configs.recommended,
@@ -87,6 +87,7 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 2,
       'indent': ['error', 2], // Use base indent rule instead
       '@typescript-eslint/no-unused-vars': ['error'],
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 );

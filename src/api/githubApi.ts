@@ -5,9 +5,7 @@ import { CalculateDate } from '../utils/calculateDate';
 
 const FORMAT_LINK = 'https://github.com/';
 const BASE_LINK = 'https://api.github.com/repos/';
-const TAB_LINK = '/issues';
-// const TEMP_LINK = 'facebook/react';
-const TEST_LINK = '/testdata/testdata.json';
+const TAB_LINK = '/issues?state=all';
 
 export const formatLink = (link: string) => {
   return link.split(FORMAT_LINK)[1];
@@ -25,13 +23,23 @@ export const getRepoName = (link: string) => {
   return formattedLink;
 };
 
+export const isValidGitHubLink = (link: string) => {
+  try {
+    const formattedLink = formatLink(link).split('/');
+
+    return formattedLink.length === 2;
+  } catch {
+    throw new Error('Error: Invalid link. Link has to be https://github.com/[owner of the repo]/[repo name]');
+  }
+}
+
 export const getIssues = async (link: string): Promise<IssueInfo[]> => {
   return fetch(BASE_LINK + link + TAB_LINK)
     .then((response) => response.json())
     .then((issues: IssueInfo[]) =>
       issues.map((issue) => {
         issue.timeAgo = CalculateDate(issue.created_at);
-
+        console.log(issue.state);
         if (issue.state === 'closed') {
           issue.status = IssueStatus.DONE;
         } else if (issue.assignee) {
@@ -39,8 +47,6 @@ export const getIssues = async (link: string): Promise<IssueInfo[]> => {
         } else {
           issue.status = IssueStatus.TO_DO;
         }
-
-        console.log(typeof issue);
 
         return issue;
       })
@@ -53,27 +59,31 @@ export const getGithubStars = async (link: string): Promise<number> => {
     .then(data => data.stargazers_count);
 };
 
-export const getFictionData = async (
-  link: string = TEST_LINK
-): Promise<IssueInfo[]> => {
-  return fetch(TEST_LINK)
-    .then((response) => response.json())
-    .then((issues: IssueInfo[]) =>
-      issues.map((issue, index) => {
-        issue.timeAgo = CalculateDate(issue.created_at);
-        // issue.order = index;
+// Uncomment for test purposes
 
-        if (issue.state === 'closed') {
-          issue.status = IssueStatus.DONE;
-        } else if (issue.assignee) {
-          issue.status = IssueStatus.IN_PROGRESS;
-        } else {
-          issue.status = IssueStatus.TO_DO;
-        }
+// const TEMP_LINK = 'facebook/react';
+// const TEST_LINK = '/testdata/testdata.json';
 
-        console.log(typeof issue);
+// export const getFictionData = async (
+//   link: string = TEST_LINK
+// ): Promise<IssueInfo[]> => {
+//   return fetch(TEST_LINK)
+//     .then((response) => response.json())
+//     .then((issues: IssueInfo[]) =>
+//       issues.map(issue => {
+//         issue.timeAgo = CalculateDate(issue.created_at);
 
-        return issue;
-      })
-    );
-};
+//         if (issue.state === 'closed') {
+//           issue.status = IssueStatus.DONE;
+//         } else if (issue.assignee) {
+//           issue.status = IssueStatus.IN_PROGRESS;
+//         } else {
+//           issue.status = IssueStatus.TO_DO;
+//         }
+
+//         console.log(typeof issue);
+
+//         return issue;
+//       })
+//     );
+// };
