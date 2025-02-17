@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+# KANBAN DESK - Test task for Incode
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![](https://imgur.com/IHPLZi1.gif)
+![](https://imgur.com/NsykHjS.gif)
 
-Currently, two official plugins are available:
+### See DEMO here: https://fukuro-kanban.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Hello there! Hope you have a nice day!
+I'm Anna or Fukuro. and I'm happy to present to you what I've created!
 
-## Expanding the ESLint configuration
+Small, simple and usable kanban desk for managing issues from your GitHub repository. Sounds fun and useful.
+### Task requirements here: https://github.com/incodellc/github-kanban-test-task
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Let's dive into more details.
 
-- Configure the top-level `parserOptions` property like this:
+ ## Key features
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Dynamic repo download**
+- **Smooth animations & loaders**: To improve UI, I added small cute animations and loaders.
+- **State persisting between sessions**: Changed tab? Don't worry! Your progress will be fully recovered from sessionStorage.
+- **Responsive design. Mobile first**: Displayed optimally both on mobiles and desktops
+- **ANTD design**: Minimalistic design.
+- **Change cards position freely without any limitations**: You can move cards between columns or within one specific using Drag&Drop The state and the order of the cards will be saved.
+- **Optimization**: Say no to extra component rerenderings!
+- **Notifications**: if something goes wrong, you'll quickly find the core of the issue with small toast notifications!
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Used Technologies
+- **React 18**: The core of our project
+- **TypeScript**: Our security card for safety development
+- **Vite**: for building our project
+- **SASS**: easy styling!
+- **Antd design**: easy styling!
+- **Prettier**: just some sprinkles to make our code readable.
+- **React-dnd**: for drag & drop functions.
+- **Redux Toolkit**: for managing states within the application
+- **React-toastify**: toast notifications.
+- **Cypress**: for application debugging.
+- **Netlify**: for automatic project deployment.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## How to run the project on your local machine?
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+That's easy! Just follow these steps:
+
+- *1. Clone this repository*
+- *2. Open in the terminal the folder of the project: `cd incode-test-task`*
+- *3. Install all necessary dependencies with `npm install`*
+- *4. Start the production server with: `npm start`*
+- *OR the development server with: `npm run dev`*
+- *5. Done! Your application will be opened in your browser.*
+
+## How to run the tests on your local machine?
+
+That's easy! Just follow these steps:
+
+- *Run the following command: `npm run test`*
+- *Cypress UI will be opened. Choose E2E tests and click on `kanban.test.cy.ts`*
+- *Done!*
+
