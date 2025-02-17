@@ -18,7 +18,7 @@ type Props = {
 export const SearchBar: React.FC<Props> = ({ loadIssues, isLoading }) => {
   const [searchLink, setSearchLink] = useState('');
   const repoLink = useSelector((state: RootState) => state.issues.repoLink);
-  const [searchStatus, setSearchStatus] = useState('');
+  const [searchStatus, setSearchStatus] = useState<'' | 'warning' | 'error'>('');
 
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();

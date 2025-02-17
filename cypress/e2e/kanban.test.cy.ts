@@ -67,6 +67,7 @@ describe('Project Startup', () => {
   });
 
   it('renders the default elements on the screen', () => {
+    // Checks if the kanban area renders properly
     cy.get(TEST_SELECTORS.WORK_AREA.AREA).should('exist');
   });
 
@@ -84,11 +85,15 @@ describe('Project Startup', () => {
   });
 
   it('loads issues from session storage', () => {
+    // STEP 1 Trying download the data
     insertString(TEST_REPOS.MAIN.URL);
     cy.intercept('GET', TEST_REPOS.MAIN.API).as('fetchData');
     cy.wait(500);
+
+    // STEP 2 the length of the fetch request should be 0, because no request has to ever appear
     cy.get('@fetchData.all').should('have.length', 0);
 
+    // STEP 3 check if the data still persist (if it has been loaded from session storage)
     cy.get(TEST_SELECTORS.WORK_AREA.CARD).should('have.length.greaterThan', 0);
   });
 });
@@ -104,13 +109,19 @@ describe('Search validation', () => {
   };
 
   it('inserts an empty string', () => {
+    // STEP 1 input an empty string
     insertString('');
+
+    // STEP 2 check if the input shows error
     isInputDanger();
   });
 
   it('insert invalid string', () => {
+    // STEP 1 input an invalid string
     insertString(TEST_REPOS.WRONG.URL);
     cy.wait(500);
+
+     // STEP 2 check if the input shows error
     isInputDanger();
   });
 });
@@ -122,7 +133,9 @@ describe('Link to repositories', () => {
   });
 
   it('link to repository', () => {
+    // STEP 1 click on repo link
     cy.get(TEST_SELECTORS.LINKS.REPO).click();
+    // STEP 2 check if the user has been redirected to a certain page
     cy.origin('https://github.com', { args: { TEST_REPOS } }, ({ TEST_REPOS }) =>
       cy.url().should('eq', TEST_REPOS.MAIN.URL),
     );

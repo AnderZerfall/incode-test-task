@@ -2,7 +2,7 @@ import { Card, Typography, Tag } from 'antd';
 import { IssueInfo } from '../../types/IssueInfo';
 import { useDrag } from 'react-dnd';
 import { IssueStatus } from '../../types/IssueStatus';
-import React from 'react';
+import React, { useRef } from 'react';
 import { DropIndicator } from '../DropIndicator/DropIndicatior';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
@@ -14,6 +14,8 @@ interface Props {
 }
 
 const ToDoCardComponent: React.FC<Props> = React.memo(({ issue, type }) => {
+  const dargRef = useRef<HTMLDivElement | null>(null);
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ISSUES',
     item: { card: issue },
@@ -31,10 +33,16 @@ const ToDoCardComponent: React.FC<Props> = React.memo(({ issue, type }) => {
     }
   };
 
+    // To avoid TypeScript errors, I had to wrap the ref into a function
+  const setDragTarget = (node: HTMLDivElement) => {
+    drag(node);
+    dargRef.current = node;
+  };
+
   return (
     <DropIndicator column={type} issue={issue}>
       <motion.div layout layoutId={`${issue.id}`}>
-        <div ref={drag}>
+        <div ref={setDragTarget}>
           <Card
             data-testid='issue-card'
             data-test-draggable={`card-draggable-${issue.status}-${issue.id}`}
