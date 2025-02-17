@@ -1,6 +1,3 @@
-import { ToDoList } from '../../components/ToDoList/ToDoList';
-import { SearchBar } from '../../components/SearchBar/SearchBar';
-import './MainPage.scss';
 import {
   useCallback,
   useEffect,
@@ -8,17 +5,21 @@ import {
   useState
 } from 'react';
 import { getIssues, formatLink } from '../../api/githubApi';
-import { IssueInfo } from '../../types/IssueInfo';
-import { useDispatch } from 'react-redux';
+import { IssueInfo } from '../../domain/models/IssueInfo';
 import { IssuesSlice } from '../../features/github/issuesSlices';
-import { IssueStatus } from '../../types/IssueStatus';
+import { IssueStatus } from '../../domain/models/IssueStatus';
 import { DndProvider } from 'react-dnd';
 import { HTML5toTouch } from 'rdndmb-html5-to-touch';
 import { MultiBackend } from 'react-dnd-multi-backend';
 import { loadRepo, getLatestRepo } from '../../store/sessionStorage';
+import { EmojiColumns } from '../../domain/models/EmojiColumns';
 import { toast } from 'react-toastify';
-import { EmojiColumns } from '../../types/EmojiColumns';
+import { useDispatch } from 'react-redux';
 import { Spin } from "antd";
+import { ToDoList } from '../../components/ToDoList/ToDoList';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+
+import './MainPage.scss';
 
 export const MainPage = () => {
   const dispatch = useDispatch();
@@ -40,15 +41,15 @@ export const MainPage = () => {
             }),
           );
         } else if (link) {
-          getIssues(link).then((issues: IssueInfo[]) => {
-            dispatch(IssuesSlice.actions.setIssues({ issues, link: rawLink }));
-          });
+          getIssues(link)
+            .then((issues: IssueInfo[]) => dispatch(IssuesSlice.actions.setIssues({ issues, link: rawLink })))
+            .catch(() => toast('Error: repo does not exist or it has no issues'));
         }
       } catch (error) {
         toast(error.message);
       }
-
-      setTimeout(() => {      // UPD: that's purely for demonstration purposes
+      // UPD: that's purely for demonstration purposes
+      setTimeout(() => {     
           setIsLoading(false);
       }, 250);
     },
@@ -58,8 +59,6 @@ export const MainPage = () => {
   useEffect(() => {
     loadIssues();
   }, [loadIssues]);
-
-  console.log(isLoading)
 
   const renderedTodoLists = useMemo(
     () =>

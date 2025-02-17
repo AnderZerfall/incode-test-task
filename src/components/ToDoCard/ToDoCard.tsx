@@ -1,7 +1,7 @@
 import { Card, Typography, Tag } from 'antd';
-import { IssueInfo } from '../../types/IssueInfo';
+import { IssueInfo } from '../../domain/models/IssueInfo';
 import { useDrag } from 'react-dnd';
-import { IssueStatus } from '../../types/IssueStatus';
+import { IssueStatus } from '../../domain/models/IssueStatus';
 import React, { useRef } from 'react';
 import { DropIndicator } from '../DropIndicator/DropIndicatior';
 import { motion } from 'framer-motion';

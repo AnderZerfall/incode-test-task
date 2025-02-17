@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { IssueInfo } from '../types/IssueInfo';
-import { IssueStatus } from '../types/IssueStatus';
-import { CalculateDate } from '../utils/calculateDate';
+import { IssueInfo } from '../domain/models/IssueInfo';
+import { IssueInfoDTO } from '../domain/dto/IssueInfoDTO';
+import { mapIssuesDTOtoModel } from '../utils/mapHelper';
 
 const FORMAT_LINK = 'https://github.com/';
 const BASE_LINK = 'https://api.github.com/repos/';
@@ -41,55 +41,14 @@ export const isValidGitHubLink = (link: string) => {
 
 export const getIssues = async (link: string): Promise<IssueInfo[]> => {
   return fetch(BASE_LINK + link + TAB_LINK, { headers })
-    .then((response) => response.json())
-    .then((issues: IssueInfo[]) =>
-      issues.map((issue) => {
-        issue.timeAgo = CalculateDate(issue.created_at);
-        console.log(issue.state);
-        if (issue.state === 'closed') {
-          issue.status = IssueStatus.DONE;
-        } else if (issue.assignee) {
-          issue.status = IssueStatus.IN_PROGRESS;
-        } else {
-          issue.status = IssueStatus.TO_DO;
-        }
-
-        return issue;
-      }),
+    .then(response => response.json())
+    .then((issues: IssueInfoDTO[]) =>
+      issues.map(issue => mapIssuesDTOtoModel(issue)),
     );
 };
 
 export const getGithubStars = async (link: string): Promise<number> => {
   return fetch(BASE_LINK + link)
-    .then((response) => response.json())
-    .then((data) => data.stargazers_count);
+    .then(response => response.json())
+    .then(data => data.stargazers_count);
 };
-
-// Uncomment for test purposes
-
-// const TEMP_LINK = 'facebook/react';
-// const TEST_LINK = '/testdata/testdata.json';
-
-// export const getFictionData = async (
-//   link: string = TEST_LINK
-// ): Promise<IssueInfo[]> => {
-//   return fetch(TEST_LINK)
-//     .then((response) => response.json())
-//     .then((issues: IssueInfo[]) =>
-//       issues.map(issue => {
-//         issue.timeAgo = CalculateDate(issue.created_at);
-
-//         if (issue.state === 'closed') {
-//           issue.status = IssueStatus.DONE;
-//         } else if (issue.assignee) {
-//           issue.status = IssueStatus.IN_PROGRESS;
-//         } else {
-//           issue.status = IssueStatus.TO_DO;
-//         }
-
-//         console.log(typeof issue);
-
-//         return issue;
-//       })
-//     );
-// };

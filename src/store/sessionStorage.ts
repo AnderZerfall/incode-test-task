@@ -1,4 +1,4 @@
-import { Columns } from '../types/Columns';
+import { Columns } from "../features/github/issuesSliceTypes";
 
 export const STORAGE_NAME = 'latest';
 
@@ -16,15 +16,10 @@ export const saveRepo = (
   storageName: string
 ) => {
   try {
-    
-    // if (!columns) {
-    //   throw new Error('Impossible to save empty board');
-    // }
-
     validateData(columns);
     sessionStorage.setItem(storageName, JSON.stringify({ repo, columns }));
   } catch (error) {
-    console.log(error.message);
+    console.debug(error.message);
 
     return;
   }
@@ -32,13 +27,10 @@ export const saveRepo = (
 
 export const saveLatestRepoName = (repo: string) => {
   try {
-    // if (!repo) {
-    //   throw new Error('Impossible to save empty board');
-    // }
     validateData(repo);
     sessionStorage.setItem(STORAGE_NAME, JSON.stringify(repo));
   } catch (error) {
-    console.log(error.message);
+    console.debug(error.message);
 
     return;
   }
@@ -54,7 +46,7 @@ export const loadRepo = (storageName: string = STORAGE_NAME) => {
 
     return JSON.parse(rawIssues);
   } catch (error) {
-    console.log(error.message);
+    console.debug(error.message);
 
     return;
   }
@@ -69,7 +61,7 @@ export const getLatestRepo = () => {
 
     return repo;
   } catch(error) {
-    console.log(error.message);
+    console.debug(error.message);
     
     return;
   }
