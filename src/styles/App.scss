@@ -32,11 +32,10 @@ main {
 
 .custom-scrollbar::-webkit-scrollbar {
     width: variables.$border-thickness;
-    height: 100%;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: variables.$border-color;
+    background-color: variables.$indicator-border-color;
     border-radius: variables.$border-radius;
 }
 

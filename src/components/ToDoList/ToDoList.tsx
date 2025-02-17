@@ -42,10 +42,15 @@ const ToDoListComponent: React.FC<Props> = React.memo(({ type, emoji }) => {
         {type} {emoji}
       </Typography.Title>
       <motion.div className="todo-list__container container custom-scrollbar" style={{ backgroundColor: token.colorBgSolid }}>
-        { issues.length > 0 && renderedIssues}
-        <DropIndicator
-          column={type}
-        />
+        {issues.length > 0 ? (
+          <>
+            {renderedIssues}
+            <DropIndicator column={type} />
+          </>
+        ) : (
+            <DropIndicator column={type} isInEmptyColumn={true} />
+        )}
+      
       </motion.div>
     </div>
   );

@@ -24,7 +24,7 @@ export const App = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Made by 🦉 Anna Androshchuk. 💜 Hope ypu enjoy it!</Footer>
+        <Footer style={{ textAlign: 'center' }}>Made by 🦉 Anna Androshchuk. 💜 Hope you enjoy it!</Footer>
       </Layout>
       <ToastContainer
         position='bottom-right'
