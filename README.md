@@ -55,4 +55,4 @@ That's easy! Just follow these steps:
 - *Run the following command: `npm run test`*
 - *Cypress UI will be opened. Choose E2E tests and click on `kanban.test.cy.ts`*
 - *Done!*
-
+![](https://imgur.com/VPkJIYP.png)
