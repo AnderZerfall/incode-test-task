@@ -1,16 +1,43 @@
 @use '../../styles/variables.scss' as variables;
 
 .drop-indicator {
+    position: relative;
     flex-shrink: 0;
     width: 100%;
-    height: 2px;
-    background-color: variables.$primary-color;
-    border-radius: 2px;
+    background-color: variables.$indicator-color;
+    border: variables.$border-thickness solid variables.$indicator-border-color;
+    height: variables.$border-thickness;
+    border-radius: variables.$border-radius;
     margin: variables.$small-margin 0;
     opacity: 0;
     transition: all 300ms ease;
+
+    &::before {
+        content: '+';
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        color: variables.$indicator-border-color;
+        font-size: 48px;
+    }
 }
 
 .active {
     opacity: 1;
+    height: variables.$drop-indicator-min-size;
+    background-color: variables.$primary-color-shade;
+    border: variables.$border-thickness solid variables.$primary-color;
+
+    &::before {
+        color: variables.$primary-color;
+    }
 }
+
+.in-empty-column {
+    margin: variables.$margin 0;
+    opacity: 1;
+    height: variables.$drop-indicator-min-size;
+}
+

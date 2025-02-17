@@ -10,12 +10,14 @@ import './DropIndicator.scss';
 interface Props {
   column: IssueStatus;
   issue?: IssueInfo;
+  isInEmptyColumn?: boolean;
   children?: ReactNode;
 }
 
 export const DropIndicator: React.FC<Props> = ({
   column,
   issue,
+  isInEmptyColumn,
   children,
 }) => {
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ export const DropIndicator: React.FC<Props> = ({
       ref={setDropTarget}
       data-testid={issue ? `drop-indicator-${issue.status}-${issue.id}` : `drop-indicator-end-${column}`}
     >
-      <div className={classNames('drop-indicator', { active: isOver })} />
+      <div className={classNames('drop-indicator', { active: isOver }, { 'in-empty-column': isInEmptyColumn})} />
       {children}
     </div>
   );
