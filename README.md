@@ -1,9 +1,9 @@
 # KANBAN DESK - Test task for Incode
 
-![](https://imgur.com/IHPLZi1.gif)
-![](https://imgur.com/NsykHjS.gif)
+![](https://imgur.com/54GWa8Q.gif)
 
 ### See DEMO here: https://fukuro-kanban.netlify.app/
+### Test Data (issues) you can take from here: https://github.com/AnderZerfall/test-data-kanban
 
 Hello there! Hope you have a nice day!
 I'm Anna or Fukuro. and I'm happy to present to you what I've created!
@@ -34,8 +34,10 @@ Let's dive into more details.
 - **React-dnd**: for drag & drop functions.
 - **Redux Toolkit**: for managing states within the application
 - **React-toastify**: toast notifications.
-- **Cypress**: for application debugging.
+- **Cypress E2E**: for application debugging.
 - **Netlify**: for automatic project deployment.
+
+![](https://imgur.com/VPkJIYP.png)
 
 ## How to run the project on your local machine?
 
@@ -55,4 +57,3 @@ That's easy! Just follow these steps:
 - *Run the following command: `npm run test`*
 - *Cypress UI will be opened. Choose E2E tests and click on `kanban.test.cy.ts`*
 - *Done!*
-![](https://imgur.com/VPkJIYP.png)
