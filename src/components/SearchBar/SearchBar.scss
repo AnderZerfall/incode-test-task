@@ -1,0 +1,13 @@
+@use '../../styles/variables.scss' as variables;
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    gap: variables.$margin;
+}
+.repo-info {
+    display: flex;
+    gap: variables.$margin;
+    align-items: center;
+}

@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &__title {
+        font-size: 24px;
+        color:white;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 24px;
+}

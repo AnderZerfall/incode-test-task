@@ -1,0 +1,26 @@
+@use '../../styles/variables.scss' as variables;
+
+.todo-list {
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__headline {
+        font-size: variables.$headline;
+        margin-bottom: variables.$margin;
+    }
+
+    &__container {
+        border-radius: 12px;
+        max-height: 100vh;
+        overflow-y: scroll;
+    }
+
+    .highlighted {
+        border: 2px solid variables.$border-color;
+        opacity: 0.5;
+    }
+}

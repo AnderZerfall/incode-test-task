@@ -1,0 +1,17 @@
+@use '../../styles/variables.scss' as variables;
+
+.card {
+    position: relative;
+    transition: all 300ms ease;
+    border: 2px solid transparent;
+
+    &:hover {
+        background-color: variables.$hover-color;
+    }
+
+    &__tag {
+        position: absolute;
+        bottom: variables.$small-margin;
+        right: variables.$small-margin;
+    }
+}

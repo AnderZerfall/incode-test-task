@@ -1,0 +1,16 @@
+@use '../../styles/variables.scss' as variables;
+
+.drop-indicator {
+    flex-shrink: 0;
+    width: 100%;
+    height: 2px;
+    background-color: variables.$primary-color;
+    border-radius: 2px;
+    margin: variables.$small-margin 0;
+    opacity: 0;
+    transition: all 300ms ease;
+}
+
+.active {
+    opacity: 1;
+}

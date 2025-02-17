@@ -1,0 +1,22 @@
+@use '../../styles/variables.scss' as variables;
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    & > *:not(:last-child) {
+        margin-bottom: variables.$small-margin;
+    }
+    &__repo-info {
+        display: flex;
+    }
+
+    &__work-area {
+        display: flex;
+        justify-content: center;
+        gap: variables.$margin;
+        flex-wrap: wrap;
+        align-items: start;
+    }
+}
