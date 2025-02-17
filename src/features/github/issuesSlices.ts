@@ -1,21 +1,9 @@
 /* eslint-disable no-param-reassign */
-import {
-  createSelector,
-  createSlice,
-  PayloadAction
-} from '@reduxjs/toolkit';
-import { IssueInfo } from '../../types/IssueInfo';
-import { IssueStatus } from '../../types/IssueStatus';
-import { Columns } from '../../types/Columns';
-export interface RootState {
-  issues: InitialState;
-}
-export interface InitialState {
-  repoLink: string;
-  columns: Columns;
-}
+import { createSelector, createSlice, } from '@reduxjs/toolkit';
+import { IssueStatus } from '../../domain/models/IssueStatus';
+import { Actions, IssuesState, RootState } from './issuesSliceTypes';
 
-const initialState: InitialState = {
+const initialState: IssuesState = {
   repoLink: '',
   columns: {
     ToDo: [],
@@ -24,40 +12,24 @@ const initialState: InitialState = {
   },
 };
 
-export const IssuesSlice = createSlice({
+export const IssuesSlice = createSlice<IssuesState, Actions, 'issues', any>({
   name: 'issues',
   initialState,
   reducers: {
-    setIssues: (
-      state,
-      { payload }:
-        PayloadAction<{ issues: IssueInfo[]; link: string }>) => {
-
+    setIssues: (state, { payload }) => {
       Object.values(IssueStatus).map(status =>
         state.columns[status] = payload.issues.filter((issue) =>
-          issue.status === status));
-
+          issue.status === status
+        ));
       state.repoLink = payload.link;
     },
-    loadIssues: (
-      state,
-      { payload }:
-        PayloadAction<{ issues: Columns; link: string }>) => {
-      
+    loadIssues: ( state, { payload }) => {
       Object.values(IssueStatus).map(status =>
         state.columns[status] = payload.issues[status]);
       
       state.repoLink = payload.link;
     },
-    moveIssues: (
-      state,
-      { payload, }: PayloadAction<{
-        card: IssueInfo;
-        targetCard?: IssueInfo;
-        targetColumnType: IssueStatus;
-        sourceColumnType: IssueStatus;
-      }>,
-    ) => {
+    moveIssues: ( state, { payload }) => {
       const {
         card,
         targetCard,

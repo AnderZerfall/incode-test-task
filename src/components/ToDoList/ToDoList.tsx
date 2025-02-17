@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectIssuesByStatus } from '../../features/github/issuesSlices';
-import { IssueInfo } from '../../types/IssueInfo';
+import { IssueInfo } from '../../domain/models/IssueInfo';
 import { ToDoCard } from '../ToDoCard/ToDoCard';
-import { IssueStatus } from '../../types/IssueStatus';
+import { IssueStatus } from '../../domain/models/IssueStatus';
 import { DropIndicator } from '../DropIndicator/DropIndicatior';
 import './ToDoList.scss';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import useToken from 'antd/es/theme/useToken';
-import { EmojiColumns } from '../../types/EmojiColumns';
+import { EmojiColumns } from '../../domain/models/EmojiColumns';
 import { Typography } from 'antd';
 
 type Props = {

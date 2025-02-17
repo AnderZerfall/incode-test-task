@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from 'react';
-import { IssueStatus } from '../../types/IssueStatus';
+import { IssueStatus } from '../../domain/models/IssueStatus';
 import { useDrop } from 'react-dnd';
-import { IssueInfo } from '../../types/IssueInfo';
+import { IssueInfo } from '../../domain/models/IssueInfo';
 import { IssuesSlice } from '../../features/github/issuesSlices';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';

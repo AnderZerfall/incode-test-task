@@ -1,5 +1,5 @@
 import '@4tw/cypress-drag-drop';
-import { IssueStatus } from '../../src/types/IssueStatus';
+import { IssueStatus } from '../../src/domain/models/IssueStatus';
 
 // UPD: change to your local url (if needed)
 const BASE_URL: string = Cypress.config('baseUrl') || '';
@@ -93,7 +93,9 @@ describe('Project Startup', () => {
     cy.intercept('GET', TEST_REPOS.MAIN.API).as('fetchData');
     cy.wait(500);
 
-    // STEP 2 the length of the fetch request should be 0, because no request has to ever appear
+    // STEP 2 the length of the fetch request should be 0,
+    // because no request has to ever appear
+    // WARNING: this test might fail sometimes due to Cypress magic bullshit
     cy.get('@fetchData.all').should('have.length', 0);
 
     // STEP 3 check if the data still persist (if it has been loaded from session storage)

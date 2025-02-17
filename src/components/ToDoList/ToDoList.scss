@@ -1,25 +1,25 @@
 @use '../../styles/variables.scss' as variables;
 
 .todo-list {
-    min-width: variables.$card-min-size;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  min-width: variables.$card-min-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    &__headline {
-        font-size: variables.$headline;
-        margin-bottom: variables.$margin;
-    }
+  &__headline {
+    font-size: variables.$headline;
+    margin-bottom: variables.$margin;
+  }
 
-    &__container {
-        border-radius: variables.$border-radius;
-        max-height: 100vh;
-        overflow-y: scroll;
-    }
+  &__container {
+    border-radius: variables.$border-radius;
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
 
-    .highlighted {
-        border: variables.$border-thickness solid variables.$border-color;
-        opacity: 0.7;
-    }
+  .highlighted {
+    border: variables.$border-thickness solid variables.$border-color;
+    opacity: 0.7;
+  }
 }

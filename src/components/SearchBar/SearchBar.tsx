@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isValidGitHubLink } from '../../api/githubApi';
 import { toast } from 'react-toastify';
-import { RootState } from '../../features/github/issuesSlices';
+import { RootState } from '../../features/github/issuesSliceTypes';
 
 type Props = {
   loadIssues: (rawLink: string) => void;

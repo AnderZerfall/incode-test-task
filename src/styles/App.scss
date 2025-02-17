@@ -1,49 +1,42 @@
 @use './variables.scss' as variables;
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100%;
-}
+@use './normalize.css';
+@use './reset.css';
 
 main {
-    min-height: 100vh;
-    padding: 0 variables.$large-margin;
+  min-height: 100vh;
+  padding: 0 variables.$large-margin;
 
-    @media (max-width: variables.$tablet) {
-        padding: 0;
-    }
+  @media (max-width: variables.$tablet) {
+    padding: 0;
+  }
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0 variables.$margin;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 variables.$margin;
 }
 
 .main {
-    &__container {
-        padding: variables.$margin;
-    }
+  &__container {
+    padding: variables.$margin;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: variables.$border-thickness;
+  width: variables.$border-thickness;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: variables.$indicator-border-color;
-    border-radius: variables.$border-radius;
+  background-color: variables.$indicator-border-color;
+  border-radius: variables.$border-radius;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    border-radius: variables.$border-radius;
+  border-radius: variables.$border-radius;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: variables.$hover-color;
+  background-color: variables.$hover-color;
 }
-
