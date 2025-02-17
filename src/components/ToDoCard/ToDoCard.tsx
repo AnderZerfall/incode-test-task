@@ -43,10 +43,7 @@ const ToDoCardComponent: React.FC<Props> = React.memo(({ issue, type }) => {
             variant='borderless'
             className={classNames('card', { highlighted: isDragging })}
           >
-            <Tag
-              className={classNames('card__tag')}
-              bordered={false}
-              color={defineTagColor(issue.status)}>
+            <Tag className={classNames('card__tag')} bordered={false} color={defineTagColor(issue.status)}>
               {issue.status}
             </Tag>
             <Typography.Paragraph>

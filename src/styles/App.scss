@@ -1,3 +1,4 @@
+@use './variables.scss' as variables;
 * {
     margin: 0;
     padding: 0;
@@ -7,14 +8,12 @@ body {
     min-height: 100%;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+main {
+    min-height: 100vh;
+    padding: 0 variables.$large-margin;
 
-    &__title {
-        font-size: 24px;
-        color:white;
+    @media (max-width: variables.$tablet) {
+        padding: 0;
     }
 }
 
@@ -22,5 +21,30 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 24px;
+    padding: 0 variables.$margin;
 }
+
+.main {
+    &__container {
+        padding: variables.$margin;
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: variables.$border-thickness;
+    height: 100%;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: variables.$border-color;
+    border-radius: variables.$border-radius;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    border-radius: variables.$border-radius;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: variables.$hover-color;
+}
+

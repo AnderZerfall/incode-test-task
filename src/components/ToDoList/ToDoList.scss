@@ -1,8 +1,7 @@
 @use '../../styles/variables.scss' as variables;
 
 .todo-list {
-    width: 400px;
-    flex-shrink: 0;
+    min-width: variables.$card-min-size;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,13 +13,13 @@
     }
 
     &__container {
-        border-radius: 12px;
+        border-radius: variables.$border-radius;
         max-height: 100vh;
         overflow-y: scroll;
     }
 
     .highlighted {
-        border: 2px solid variables.$border-color;
+        border: variables.$border-thickness solid variables.$border-color;
         opacity: 0.5;
     }
 }

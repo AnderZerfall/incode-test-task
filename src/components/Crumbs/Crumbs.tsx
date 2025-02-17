@@ -19,7 +19,7 @@ export const Crumbs: React.FC<Props> = ({ repoLink }) => {
       <Breadcrumb.Item>
         <a
           href={ownerLink[1]}
-          className=""
+          data-testid='link-owner'
         >
           {ownerLink[0]}
         </a>
@@ -27,7 +27,7 @@ export const Crumbs: React.FC<Props> = ({ repoLink }) => {
       <Breadcrumb.Item>
         <a
           href={repoLink}
-          className=""
+          data-testid='link-repo'
         >
           {repoName}
         </a>

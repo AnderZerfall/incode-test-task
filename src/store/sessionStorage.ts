@@ -2,16 +2,26 @@ import { Columns } from '../types/Columns';
 
 export const STORAGE_NAME = 'latest';
 
+const validateData = (data: Columns | string) =>  {
+  if (!data) {
+    throw new Error('Impossible to save empty board');
+  }
+
+  return true;
+}
+
 export const saveRepo = (
   columns: Columns,
   repo: string,
   storageName: string
 ) => {
   try {
-    if (!columns) {
-      throw new Error('Impossible to save empty board');
-    }
+    
+    // if (!columns) {
+    //   throw new Error('Impossible to save empty board');
+    // }
 
+    validateData(columns);
     sessionStorage.setItem(storageName, JSON.stringify({ repo, columns }));
   } catch (error) {
     console.log(error.message);
@@ -22,10 +32,10 @@ export const saveRepo = (
 
 export const saveLatestRepoName = (repo: string) => {
   try {
-    if (!repo) {
-      throw new Error('Impossible to save empty board');
-    }
-
+    // if (!repo) {
+    //   throw new Error('Impossible to save empty board');
+    // }
+    validateData(repo);
     sessionStorage.setItem(STORAGE_NAME, JSON.stringify(repo));
   } catch (error) {
     console.log(error.message);
@@ -51,13 +61,16 @@ export const loadRepo = (storageName: string = STORAGE_NAME) => {
 };
 
 export const getLatestRepo = () => {
-  const getRepoName = loadRepo();
-
-  if (getRepoName) {
-    const repo = loadRepo(getRepoName);
+  const repoName = loadRepo();
+  
+  try {
+    validateData(repoName)
+    const repo = loadRepo(repoName);
 
     return repo;
+  } catch(error) {
+    console.log(error.message);
+    
+    return;
   }
-
-  return;
 };

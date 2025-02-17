@@ -3,7 +3,7 @@
 .card {
     position: relative;
     transition: all 300ms ease;
-    border: 2px solid transparent;
+    border: variables.$border-thickness solid transparent;
 
     &:hover {
         background-color: variables.$hover-color;

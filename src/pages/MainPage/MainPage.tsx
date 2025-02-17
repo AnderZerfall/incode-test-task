@@ -7,7 +7,7 @@ import {
   useMemo,
   useState
 } from 'react';
-import { getIssues, formatLink, getFictionData } from '../../api/githubApi';
+import { getIssues, formatLink } from '../../api/githubApi';
 import { IssueInfo } from '../../types/IssueInfo';
 import { useDispatch } from 'react-redux';
 import { IssuesSlice } from '../../features/github/issuesSlices';
@@ -46,11 +46,11 @@ export const MainPage = () => {
         }
       } catch (error) {
         toast(error.message);
-      } finally {
-        setTimeout(() => {      // UPD: that's purely for demonstration purposes
-          setIsLoading(false);
-        }, 250);
       }
+
+      setTimeout(() => {      // UPD: that's purely for demonstration purposes
+          setIsLoading(false);
+      }, 250);
     },
     [dispatch],
   );
