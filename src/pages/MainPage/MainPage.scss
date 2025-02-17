@@ -13,10 +13,19 @@
     }
 
     &__work-area {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         justify-content: center;
         gap: variables.$margin;
         flex-wrap: wrap;
         align-items: start;
+
+        @media (max-width: 946px) and (min-width: 671px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 670px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
     }
 }

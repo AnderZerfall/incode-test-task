@@ -1,144 +1,205 @@
-import '@4tw/cypress-drag-drop'
+import '@4tw/cypress-drag-drop';
+import { IssueStatus } from '../../src/types/IssueStatus';
 
-const TEST_LINK = 'https://github.com/AnderZerfall/test-data-kanban';
-const API_LINK = 'https://api.github.com/repos/AnderZerfall/test-data-kanban/issues?state=all';
-const TEST_LINK_SECOND = 'https://github.com/react-dnd/react-dnd';
-const API_LINK_SECOND = 'https://api.github.com/repos/react/react/issues?state=all';
-const TEST_CARD_ID_SOURCE = 2856157697
-const TEST_CARD_ID_TARGET = 2856156005
-const TEST_CARD_ID_TARGET_COLUMN = 2856157858
+const TEST_REPOS = {
+  MAIN: {
+    URL: 'https://github.com/AnderZerfall/test-data-kanban',
+    API: 'https://api.github.com/repos/AnderZerfall/test-data-kanban/issues?state=all',
+    OWNER: 'https://github.com/AnderZerfall',
+  },
+  EXTRA: {
+    URL: 'https://github.com/react-dnd/react-dnd',
+    API: 'https://api.github.com/repos/react/react/issues?state=all',
+    OWNER: 'https://github.com/react-dnd',
+  },
+  WRONG: {
+    URL: 'https://some.finctional.url',
+  },
+};
+
+const TEST_CARDS = {
+  SOURCE: '2856157697',
+  TARGET: '2856156005',
+  TARGET_COLUMN: '2856157858',
+  CARD_1: '2856157697',
+  CARD_2: '2856156005',
+  CARD_3: '2856157858',
+  CARD_4: '2856157608',
+  CARD_5: '2856157782',
+  CARD_6: '2856157518',
+};
+
+const TEST_SELECTORS = {
+  LINKS: {
+    REPO: '[data-testid="link-repo"]',
+    OWNER: '[data-testid="link-owner"]',
+  },
+  SEARCH: {
+    INPUT: '[data-testid="search-bar"]',
+    BUTTON: '[data-testid="search-bar-button"]',
+  },
+  WORK_AREA: {
+    AREA: '[data-testid="kanban-area"]',
+    CARD: '[data-testid="issue-card"]',
+  },
+  CARDS: {
+    TO_DO: '[data-test-type="issue-ToDo"]',
+    IN_PROGRESS: '[data-test-type="issue-InProgress"]',
+    DONE: '[data-test-type="issue-Done"]',
+  },
+  DRAG_DROP: {
+    DRAG_CARD: (cardId: string, status: IssueStatus) => `[data-test-draggable="card-draggable-${status}-${cardId}`,
+    DROP_CARD: (cardId: string, status: IssueStatus) => `[data-testid="drop-indicator-${status}-${cardId}`,
+    DROP_END: (status: IssueStatus) => `[data-testid="drop-indicator-end-${status}"]`,
+  },
+};
 
 const insertString = (link: string) => {
   if (link) {
-     cy.get(`[data-testid="search-bar"]`).type(link);
+    cy.get(TEST_SELECTORS.SEARCH.INPUT).type(link);
   }
-  cy.get(`[data-testid="search-bar-button"]`).click();
-}
+  cy.get(TEST_SELECTORS.SEARCH.BUTTON).click();
+};
 
-describe.skip('project startup', () => {
+describe('Project Startup', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/')
+    cy.visit('http://localhost:5173/');
   });
 
   it('renders the default elements on the screen', () => {
-    cy.get('[data-testid="kanban-area"]').should("exist");
+    cy.get(TEST_SELECTORS.WORK_AREA.AREA).should('exist');
   });
 
   it('gets issues from link', () => {
     // STEP 1 download the data
-    cy.clearAllSessionStorage();
-    insertString(TEST_LINK);
-    cy.intercept('GET', API_LINK).as('fetchData');
+    insertString(TEST_REPOS.MAIN.URL);
+    cy.intercept('GET', TEST_REPOS.MAIN.API).as('fetchData');
     cy.wait('@fetchData');
-    
+
     // STEP 2 put cards into right columns
-    cy.get(`[data-testid="issue-card"]`).should('have.length.greaterThan', 0);
-    cy.get(`[data-test-type="issue-ToDo"]`).should('have.length', 2);
-    cy.get(`[data-test-type="issue-InProgress"]`).should('have.length', 2);
-    cy.get(`[data-test-type="issue-Done"]`).should('have.length', 2);
+    cy.get(TEST_SELECTORS.WORK_AREA.CARD).should('have.length.greaterThan', 0);
+    cy.get(TEST_SELECTORS.CARDS.TO_DO).should('have.length', 2);
+    cy.get(TEST_SELECTORS.CARDS.IN_PROGRESS).should('have.length', 2);
+    cy.get(TEST_SELECTORS.CARDS.DONE).should('have.length', 2);
   });
 
   it('loads issues from session storage', () => {
-    insertString(TEST_LINK);
-    cy.intercept('GET', API_LINK).as('fetchDataFirst');
+    insertString(TEST_REPOS.MAIN.URL);
+    cy.intercept('GET', TEST_REPOS.MAIN.API).as('fetchData');
     cy.wait(500);
-    cy.get('@fetchDataFirst.all').should('have.length', 0)
+    cy.get('@fetchData.all').should('have.length', 0);
 
-    cy.get(`[data-testid="issue-card"]`).should('have.length.greaterThan', 0);
-  })
+    cy.get(TEST_SELECTORS.WORK_AREA.CARD).should('have.length.greaterThan', 0);
+  });
 });
 
-describe('tests search validation', () => {
-   beforeEach(() => {
-    cy.visit('http://localhost:5173/')
-   });
-  
+describe('Search validation', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:5173/');
+  });
+
+  const isInputDanger = () => {
+    cy.wait(500);
+    cy.get(TEST_SELECTORS.SEARCH.INPUT).should('have.css', 'border-color', 'rgb(215, 83, 101)');
+  };
+
   it('inserts an empty string', () => {
     insertString('');
-    cy.wait(500);
-    cy.get(`[data-testid="search-bar"]`).should('have.css', 'border-color', 'rgb(215, 83, 101)')
+    isInputDanger();
   });
 
   it('insert invalid string', () => {
-    insertString('github//:test////123123');
+    insertString(TEST_REPOS.WRONG.URL);
     cy.wait(500);
-    cy.get(`[data-testid="search-bar"]`).should('have.css', 'border-color', 'rgb(215, 83, 101)')
+    isInputDanger();
   });
 });
 
-describe('cards movement', () => {
-  const cardToDo = '[data-test-draggable="card-draggable-ToDo-';
-  const cardInProgress = '[data-test-draggable="card-draggable-InProgress-';
-  const dropInProgress = '[data-testid="drop-indicator-InProgress-';
-  const dropToDo = '[data-testid="drop-indicator-ToDo-';
-  const draggable = `${cardToDo}${TEST_CARD_ID_SOURCE}"]`;
+describe('Link to repositories', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:5173/');
+    insertString(TEST_REPOS.MAIN.URL);
+  });
+
+  it('link to repository', () => {
+    cy.get(TEST_SELECTORS.LINKS.REPO).click();
+    cy.origin('https://github.com', { args: { TEST_REPOS } }, ({ TEST_REPOS }) =>
+      cy.url().should('eq', TEST_REPOS.MAIN.URL),
+    );
+  });
+
+  it('link to owner', () => {
+    cy.get(TEST_SELECTORS.LINKS.OWNER).click();
+    cy.origin('https://github.com', { args: { TEST_REPOS } }, ({ TEST_REPOS }) =>
+      cy.url().should('eq', TEST_REPOS.MAIN.OWNER),
+    );
+  });
+});
+
+describe('Cards movement and storage', () => {
+  const draggable = TEST_SELECTORS.DRAG_DROP.DRAG_CARD(TEST_CARDS.SOURCE, IssueStatus.TO_DO);
+  const newDraggable = TEST_SELECTORS.DRAG_DROP.DRAG_CARD(TEST_CARDS.SOURCE, IssueStatus.IN_PROGRESS);
 
   beforeEach(() => {
-    cy.visit('http://localhost:5173/')
-    insertString(TEST_LINK);
+    cy.visit('http://localhost:5173/');
+    insertString(TEST_REPOS.MAIN.URL);
   });
 
-  it.skip('moves to other column', () => {
-    const newDraggable = `${cardInProgress}${TEST_CARD_ID_SOURCE}"]`;
-    const dropZone = `${dropInProgress}${TEST_CARD_ID_TARGET_COLUMN}"]`;
+  it('moves to other column', () => {
+    const dropZone = TEST_SELECTORS.DRAG_DROP.DROP_CARD(TEST_CARDS.TARGET_COLUMN, IssueStatus.IN_PROGRESS);
 
-    cy.get(draggable).should("exist");
-    cy.get(dropZone).should("exist");
+    cy.get(draggable).drag(dropZone);
 
-    cy.get(draggable)
-      .drag(dropZone);
-    
     cy.get(draggable).should('not.exist');
     cy.get(newDraggable).should('exist');
   });
 
-  it.skip('moves to the end of the column', () => {
-    const newDraggable = `${cardInProgress}${TEST_CARD_ID_SOURCE}"]`;
-    const dropZone = `[data-testid="drop-indicator-end-InProgress"]`;
+  it('moves to the end of the column', () => {
+    const dropZone = TEST_SELECTORS.DRAG_DROP.DROP_END(IssueStatus.IN_PROGRESS);
 
-    cy.get(draggable).should("exist");
-    cy.get(dropZone).should("exist");
+    cy.get(draggable).drag(dropZone);
 
-    cy.get(draggable)
-      .drag(dropZone)
-    
     cy.get(draggable).should('not.exist');
     cy.get(newDraggable).should('exist');
   });
 
-  it.skip('moves within the current column', () => {
-    const dropZone = `[data-testid="${dropToDo}${TEST_CARD_ID_TARGET}"]`;
-    
-    cy.get(draggable).should("exist");
-    cy.get(dropZone).should("exist");
+  it('moves within the current column', () => {
+    const dropZone = TEST_SELECTORS.DRAG_DROP.DROP_CARD(TEST_CARDS.TARGET, IssueStatus.TO_DO);
 
     cy.get(`[data-test-draggable^="card-draggable-ToDo-"`)
       .eq(0)
-      .should(
-        'have.attr',
-        'data-test-draggable',
-        `card-draggable-ToDo-${TEST_CARD_ID_SOURCE}`);
+      .should('have.attr', 'data-test-draggable', `card-draggable-ToDo-${TEST_CARDS.SOURCE}`);
     cy.get(`[data-test-draggable^="card-draggable-ToDo-"`)
       .eq(1)
-      .should(
-        'have.attr',
-        'data-test-draggable',
-        `card-draggable-ToDo-${TEST_CARD_ID_TARGET}`);
+      .should('have.attr', 'data-test-draggable', `card-draggable-ToDo-${TEST_CARDS.TARGET}`);
 
-    cy.get(draggable)
-      .drag(dropZone)
-    
+    cy.get(draggable).drag(dropZone);
+
     cy.get(`[data-test-draggable^="card-draggable-ToDo-"`)
       .eq(0)
-      .should(
-        'have.attr',
-        'data-test-draggable',
-        `card-draggable-ToDo-${TEST_CARD_ID_TARGET}`);
+      .should('have.attr', 'data-test-draggable', `card-draggable-ToDo-${TEST_CARDS.TARGET}`);
     cy.get(`[data-test-draggable^="card-draggable-ToDo-"`)
       .eq(1)
-      .should(
-        'have.attr',
-        'data-test-draggable',
-        `card-draggable-ToDo-${TEST_CARD_ID_SOURCE}`);
+      .should('have.attr', 'data-test-draggable', `card-draggable-ToDo-${TEST_CARDS.SOURCE}`);
+  });
+
+  it('Tests saved cards positioning', () => {
+    const dropZone = TEST_SELECTORS.DRAG_DROP.DROP_CARD(TEST_CARDS.TARGET_COLUMN, IssueStatus.IN_PROGRESS);
+
+    cy.get(draggable).drag(dropZone);
+
+    insertString(TEST_REPOS.EXTRA.URL);
+    cy.wait(500);
+    insertString(TEST_REPOS.MAIN.URL);
+    cy.intercept('GET', TEST_REPOS.MAIN.API).as('fetchData');
+    cy.wait(500);
+    cy.get('@fetchData.all').should('have.length', 0);
+
+    cy.get(`[data-test-draggable^="card-draggable-ToDo-"`)
+      .eq(0)
+      .should('have.attr', 'data-test-draggable', `card-draggable-ToDo-${TEST_CARDS.CARD_2}`);
+    cy.get(`[data-test-draggable^="card-draggable-InProgress-"`)
+      .eq(0)
+      .should('have.attr', 'data-test-draggable', `card-draggable-InProgress-${TEST_CARDS.CARD_1}`);
   });
 });

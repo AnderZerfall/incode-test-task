@@ -1,8 +1,7 @@
 @use '../../styles/variables.scss' as variables;
 
 .todo-list {
-    width: 400px;
-    flex-shrink: 0;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;

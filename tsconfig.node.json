@@ -5,6 +5,7 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": "http://localhost:5173/",
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import useToken from 'antd/es/theme/useToken';
 import { EmojiColumns } from '../../types/EmojiColumns';
+import { Typography } from 'antd';
 
 type Props = {
   type: IssueStatus;
@@ -34,9 +35,14 @@ const ToDoListComponent: React.FC<Props> = React.memo(({ type, emoji }) => {
 
   return (
     <div className="todo-list">
-      <h3 className="todo-list__headline headline">{type} {emoji}</h3>
-      <motion.div className="todo-list__container container" style={{backgroundColor: token.colorBgSolid}}>
-        {renderedIssues}
+      <Typography.Title
+        className="todo-list__headline headline"
+        level={4}
+      >
+        {type} {emoji}
+      </Typography.Title>
+      <motion.div className="todo-list__container container" style={{ backgroundColor: token.colorBgSolid }}>
+        { issues.length > 0 && renderedIssues}
         <DropIndicator
           column={type}
         />

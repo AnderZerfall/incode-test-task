@@ -16,27 +16,19 @@ export const App = () => {
         algorithm: theme.darkAlgorithm,
       }}
     >
-      <Layout style={{ height: '100%' }}>
+      <Layout style={{ minHeight: '100vh' }}>
         <Content
-          style={{
-            padding: '0 48px',
-            minHeight: '100vh',
-          }}
         >
-          <div
-            style={{
-              minHeight: 280,
-              padding: 24,
-            }}
+          <div className='main__container container'
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Made by 🦉 Anna Androshchuk. 💜 Hope ypu enjoy it!</Footer>
       </Layout>
       <ToastContainer
         position='bottom-right'
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
