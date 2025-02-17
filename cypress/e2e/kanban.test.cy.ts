@@ -1,6 +1,9 @@
 import '@4tw/cypress-drag-drop';
 import { IssueStatus } from '../../src/types/IssueStatus';
 
+// UPD: change to your local url (if needed)
+const BASE_URL: string = Cypress.config('baseUrl') || '';
+
 const TEST_REPOS = {
   MAIN: {
     URL: 'https://github.com/AnderZerfall/test-data-kanban',
@@ -63,7 +66,7 @@ const insertString = (link: string) => {
 
 describe('Project Startup', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit(BASE_URL);
   });
 
   it('renders the default elements on the screen', () => {
@@ -100,7 +103,7 @@ describe('Project Startup', () => {
 
 describe('Search validation', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit(BASE_URL);
   });
 
   const isInputDanger = () => {
@@ -128,7 +131,7 @@ describe('Search validation', () => {
 
 describe('Link to repositories', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit(BASE_URL);
     insertString(TEST_REPOS.MAIN.URL);
   });
 
@@ -154,7 +157,7 @@ describe('Cards movement and storage', () => {
   const newDraggable = TEST_SELECTORS.DRAG_DROP.DRAG_CARD(TEST_CARDS.SOURCE, IssueStatus.IN_PROGRESS);
 
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit(BASE_URL);
     insertString(TEST_REPOS.MAIN.URL);
   });
 
