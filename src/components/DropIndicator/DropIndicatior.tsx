@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 import { IssueStatus } from '../../types/IssueStatus';
 import { useDrop } from 'react-dnd';
 import { IssueInfo } from '../../types/IssueInfo';
@@ -19,6 +19,7 @@ export const DropIndicator: React.FC<Props> = ({
   children,
 }) => {
   const dispatch = useDispatch();
+  const dropRef = useRef<HTMLDivElement | null>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ISSUES',
@@ -41,9 +42,15 @@ export const DropIndicator: React.FC<Props> = ({
     collect: (monitor) => ({ isOver: monitor.isOver() }),
   }));
 
+  // To avoid TypeScript errors, I had to wrap the ref into a function
+  const setDropTarget = (node: HTMLDivElement) => {
+    drop(node);
+    dropRef.current = node;
+  };
+
   return (
     <div
-      ref={drop}
+      ref={setDropTarget}
       data-testid={issue ? `drop-indicator-${issue.status}-${issue.id}` : `drop-indicator-end-${column}`}
     >
       <div className={classNames('drop-indicator', { active: isOver })} />
